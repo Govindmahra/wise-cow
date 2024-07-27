@@ -41,7 +41,9 @@ jobs:
 
     - name: Configure kubectl
       run: |
+        mkdir -p $HOME/.kube
         echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+        kubectl config view
 
     - name: Deploy to Kubernetes
       run: |
