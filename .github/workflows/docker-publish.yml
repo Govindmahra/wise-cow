@@ -32,15 +32,21 @@ jobs:
     - name: Log out from Docker Hub
       run: docker logout
 
+    - name: Install kubectl
+      run: |
+        curl -LO "https://dl.k8s.io/release/v1.24.0/bin/linux/amd64/kubectl"
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+        kubectl version --client
+
+    - name: Configure kubectl
+      run: |
+        mkdir -p $HOME/.kube
+        echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+        kubectl config view
+        kubectl cluster-info
+
     - name: Deploy to Kubernetes
-      uses: docker://bitnami/kubectl:latest
-      with:
-        args: |
-          kubectl config set-cluster my-cluster --server=https://<YOUR_CLUSTER_ENDPOINT> --certificate-authority=<CA_CERT>
-          kubectl config set-credentials my-user --token=<YOUR_BEARER_TOKEN>
-          kubectl config set-context my-context --cluster=my-cluster --user=my-user
-          kubectl config use-context my-context
-          kubectl set image deployment/my-deployment my-container=myrepo111/wisecow:latest
-          kubectl rollout status deployment/my-deployment
-      env:
-        KUBECONFIG: ${{ secrets.KUBECONFIG }}
+      run: |
+        kubectl set image deployment/my-deployment my-container=myrepo111/wisecow:latest
+        kubectl rollout status deployment/my-deployment
