@@ -9,6 +9,6 @@ spec:
   ports:
   - port: 4499
     targetPort: 4499
-    nodePort: 30001  # You can choose any available port in the range 30000-32767
+    nodePort: 8080  # You can choose any available port in the range 30000-32767
   selector:
     app: wisecow
