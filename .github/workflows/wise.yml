@@ -1,53 +1,38 @@
-name: CI/CD Pipeline
-
+name: Docker Image CI/CD
 on:
   push:
     branches:
       - main
-
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
-      
+      uses: actions/checkout@v2
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
-      
-    - name: Cache Docker layers
-      uses: actions/cache@v3
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
       with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-buildx-
-      
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
     - name: Build and push Docker image
       uses: docker/build-push-action@v4
       with:
         context: .
         push: true
-        tags: your-registry/wisecow:latest
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-      
-    - name: Set up kubectl
-      uses: azure/setup-kubectl@v1
-      
-    - name: Deploy to Kubernetes
-      run: |
-        kubectl apply -f kubernetes/deployment.yaml
-        kubectl apply -f kubernetes/service.yaml
+        tags: ${{ secrets.DOCKER_USERNAME }}/my-wisecow:latest
+    - name: Log out from Docker Hub
+      run: docker logout
 
 
-# Expose the port the application will run on
-EXPOSE 4499
 
-# Define the default command to run the Wisecow application
-CMD ["/usr/local/bin/wisecow.sh"]
+
+
+
+
+
+
+
+
+
