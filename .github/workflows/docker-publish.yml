@@ -32,10 +32,12 @@ jobs:
     - name: Log out from Docker Hub
       run: docker logout
 
-    - name: Set up Kubernetes
-      uses: azure/setup-kubectl@v1
-      with:
-        version: '1.24.0'  # Specify the version of kubectl you want to use
+    - name: Install kubectl
+      run: |
+        curl -LO "https://dl.k8s.io/release/v1.24.0/bin/linux/amd64/kubectl"
+        chmod +x ./kubectl
+        sudo mv ./kubectl /usr/local/bin/kubectl
+        kubectl version --client
 
     - name: Configure kubectl
       run: |
@@ -45,5 +47,3 @@ jobs:
       run: |
         kubectl set image deployment/my-deployment my-container=myrepo111/wisecow:latest
         kubectl rollout status deployment/my-deployment
-
-
