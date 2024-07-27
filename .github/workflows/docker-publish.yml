@@ -43,6 +43,8 @@ jobs:
       run: |
         mkdir -p $HOME/.kube
         echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+        ls -la $HOME/.kube  # Verify the directory and config file
+        cat $HOME/.kube/config  # Print out the config file to verify its content
 
     - name: Verify kubectl configuration
       run: |
