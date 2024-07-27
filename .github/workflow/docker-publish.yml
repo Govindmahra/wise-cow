@@ -24,15 +24,3 @@ jobs:
         tags: ${{ secrets.DOCKER_USERNAME }}/my-wisecow:latest
     - name: Log out from Docker Hub
       run: docker logout
-
-
-
-
-
-
-
-
-
-
-
-

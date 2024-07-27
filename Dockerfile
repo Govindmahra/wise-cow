@@ -20,3 +20,4 @@ EXPOSE 4499
 
 # Define the default command to run the Wisecow application
 CMD ["/usr/local/bin/wisecow.sh"]
+
