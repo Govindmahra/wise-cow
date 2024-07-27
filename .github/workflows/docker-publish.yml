@@ -32,17 +32,15 @@ jobs:
     - name: Log out from Docker Hub
       run: docker logout
 
-    - name: Set up Kubernetes
-      uses: azure/setup-kubectl@v1
-      with:
-        version: '1.24.0'  # Specify the version of kubectl you want to use
-
-    - name: Configure kubectl
-      run: |
-        echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
-
     - name: Deploy to Kubernetes
-      run: |
-        kubectl set image deployment/my-deployment my-container=myrepo111/wisecow:latest
-        kubectl rollout status deployment/my-deployment
-
+      uses: docker://bitnami/kubectl:latest
+      with:
+        args: |
+          sh -c "
+            mkdir -p $HOME/.kube &&
+            echo '${{ secrets.KUBECONFIG }}' > $HOME/.kube/config &&
+            kubectl config view &&
+            kubectl cluster-info &&
+            kubectl set image deployment/my-deployment my-container=myrepo111/wisecow:latest &&
+            kubectl rollout status deployment/my-deployment
+          "
