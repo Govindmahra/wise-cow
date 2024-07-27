@@ -14,13 +14,13 @@ jobs:
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
-        username: ${{DOCKER_HUB_CRED }}
-        password: ${{DOCKER_HUB_CRED }}
+        username: ${{secrets.DOCKER_HUB_CRED }}
+        password: ${{secrets.DOCKER_HUB_CRED }}
     - name: Build and push Docker image
       uses: docker/build-push-action@v4
       with:
         context: .
         push: true
-        tags: ${{ DOCKER_HUB_CRED }}/my-wisecow:latest
+        tags: myrepo111/wisecow:latest
     - name: Log out from Docker Hub
       run: docker logout
