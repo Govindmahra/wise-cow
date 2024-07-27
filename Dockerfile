@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the Wisecow application script into the container
-COPY https://github.com/Govindmahra/wise-cow/blob/main/src/wisecow.sh
+COPY wisecow.sh https://github.com/Govindmahra/wise-cow/blob/main/src/wisecow.sh
 
 # Make the script executable
 RUN chmod +x https://github.com/Govindmahra/wise-cow/blob/main/src/wisecow.sh
