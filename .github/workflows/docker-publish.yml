@@ -27,7 +27,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: your-docker-username/wisecow:latest
+        tags: myrepo111/wisecow:latest
 
     - name: Log out from Docker Hub
       run: docker logout
