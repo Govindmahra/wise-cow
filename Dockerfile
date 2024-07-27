@@ -10,14 +10,14 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the Wisecow application script into the container
-COPY wisecow.sh /usr/local/bin/wisecow.sh
+COPY wisecow.sh https://github.com/Govindmahra/wise-cow/tree/main/src/wisecow.sh
 
 # Make the script executable
-RUN chmod +x /usr/local/bin/wisecow.sh
+RUN chmod +x https://github.com/Govindmahra/wise-cow/tree/main/src/wisecow.sh
 
 # Expose the port the application will run on
 EXPOSE 4499
 
 # Define the default command to run the Wisecow application
-CMD ["/usr/local/bin/wisecow.sh"]
+CMD ["https://github.com/Govindmahra/wise-cow/tree/main/src/wisecow.sh"]
 
